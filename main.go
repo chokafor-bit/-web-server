@@ -64,8 +64,6 @@ func main() {
 	}
 
 	fmt.Println("Modern Go Server is running at http://localhost:8080")
-
-	// Start the server
 	if err := server.ListenAndServe(); err != nil {
 		log.Fatal("Server failed to start:", err)
 	}

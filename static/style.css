@@ -1,135 +1,16 @@
-:root {
-    --bg-color: #0f172a;
-    --card-bg: rgba(30, 41, 59, 0.7);
-    --accent-color: #38bdf8;
-    --text-primary: #f8fafc;
-    --text-secondary: #94a3b8;
-    --success-color: #22c55e;
-}
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
-}
-
 body {
-    background-color: var(--bg-color);
-    color: var(--text-primary);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    line-height: 1.6;
-}
-
-.container {
-    width: 100%;
-    max-width: 500px;
-    padding: 20px;
-}
-
-header {
-    text-align: center;
-    margin-bottom: 2rem;
-}
-
-h1 {
-    font-size: 1.8rem;
-    font-weight: 700;
-    margin-bottom: 0.5rem;
-}
-
-#status-tag {
-    font-size: 0.85rem;
-    color: var(--success-color);
-    background: rgba(34, 197, 94, 0.1);
-    padding: 4px 12px;
-    border-radius: 20px;
-    display: inline-block;
-}
-
-/* Glassmorphism Card Style */
-.card {
-    background: var(--card-bg);
-    backdrop-filter: blur(12px); /* Creates the frosted glass effect */
-    border: 1px solid rgba(255, 255, 255, 0.534);
-    padding: 2rem;
-    border-radius: 16px;
-    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
-}
-
-h2 {
-    font-size: 1.25rem;
-    margin-bottom: 1rem;
-}
-
-.card p {
-    color: var(--text-secondary);
-    margin-bottom: 1.5rem;
-    font-size: 0.95rem;
-}
-
-/* Modern Input and Button Styling */
-input {
-    width: 100%;
-    padding: 12px 16px;
-    background: #1e293b;
-    border: 1px solid #334155;
-    border-radius: 8px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #282c34;
     color: white;
-    margin-bottom: 1rem;
-    outline: none;
-    transition: border-color 0.2s;
-}
-
-input:focus {
-    border-color: var(--accent-color);
-}
-
-.btn-primary {
-    width: 100%;
-    padding: 12px;
-    background-color: var(--accent-color);
-    color: #0f172a;
-    border: none;
-    border-radius: 8px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: transform 0.1s, opacity 0.2s;
-}
-
-.btn-primary:hover {
-    opacity: 0.9;
-    transform: translateY(-1px);
-}
-
-.btn-primary:active {
-    transform: translateY(0);
-}
-
-/* Response Box Styling */
-#response-box {
-    margin-top: 1.5rem;
-    padding: 1rem;
-    background: #0f172a;
-    border-radius: 8px;
-    font-size: 0.85rem;
-}
-
-pre {
-    color: var(--accent-color);
-    white-space: pre-wrap;
-    word-wrap: break-word;
-    margin-top: 0.5rem;
-}
-
-.hidden { display: none; }
-
-footer {
     text-align: center;
-    margin-top: 2rem;
-    color: var(--text-secondary);
-    font-size: 0.8rem;
+    padding-top: 100px;
+}
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #00add8;
+    border: none;
+    color: white;
+    border-radius: 5px;
 }
