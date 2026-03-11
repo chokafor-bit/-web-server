@@ -1,13 +1,81 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Go Web Server</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Go Web Server | Pro Dashboard</title>
     <link rel="stylesheet" href="/static/style.css">
+    <!-- Updated Google Fonts link -->
+    <link href="https://fonts.googleapis.com" rel="stylesheet">
 </head>
 <body>
-    <h1>Welcome to my web server</h1>
-    <p>click button</p>
-    <button onclick="testAPI()">Post to Go API</button>
+
+    <main class="container">
+        <!-- Header with Live Time -->
+        <header>
+            <h1>🚀 Go System Dashboard</h1>
+            <div class="status-bar">
+                <span id="status-tag" class="online">● Server Online</span>
+                <span id="live-clock">00:00:00</span>
+            </div>
+        </header>
+
+        <!-- NEW: Quick Stats Row -->
+        <section class="stats-grid">
+            <div class="stat-card">
+                <small>Requests</small>
+                <div id="req-count">0</div>
+            </div>
+            <div class="stat-card">
+                <small>Uptime</small>
+                <div id="uptime">Active</div>
+            </div>
+        </section>
+
+        <!-- Interactive API Card -->
+        <section class="card">
+            <h2>User Registration</h2>
+            <p>Enter a name to register it in the Go backend memory.</p>
+            
+            <!-- NEW: Form Input -->
+            <div class="input-group">
+                <input type="text" id="userName" placeholder="Enter name (e.g. Gopher)">
+                <button class="btn-primary" onclick="testAPI()">Add User</button>
+            </div>
+            
+            <div id="response-box" class="hidden">
+                <strong>Latest Response:</strong>
+                <pre id="api-data">Waiting for input...</pre>
+            </div>
+        </section>
+
+        <!-- NEW: Data Display Table -->
+        <section class="card">
+            <h2>Registered Users</h2>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="user-table-body">
+                        <!-- Data will be injected here by script.js -->
+                        <tr>
+                            <td colspan="3" style="text-align:center; color: #64748b;">No users added yet</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <footer>
+            <p>Powered by <strong>Golang Standard Library</strong></p>
+        </footer>
+    </main>
+
     <script src="/static/script.js"></script>
 </body>
 </html>
