@@ -5,10 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Go Pro Dashboard</title>
     <link rel="stylesheet" href="/static/style.css">
+    <!-- Fixed Google Fonts link for professional Inter typography -->
     <link href="https://fonts.googleapis.com" rel="stylesheet">
 </head>
 <body>
     <main class="container">
+        <!-- UPDATED: Top Navigation with Home and Manage links -->
+        <nav style="display: flex; justify-content: space-between; margin-bottom: 15px;">
+            <a href="/" class="back-link" style="text-decoration: none; font-size: 0.85rem;">← Home</a>
+            <a href="/manage" class="back-link" style="text-decoration: none; font-size: 0.85rem;">Manage Database →</a>
+        </nav>
+
         <header>
             <h1>🚀 Go System Dashboard</h1>
             <div class="status-bar">
@@ -30,16 +37,21 @@
             </div>
         </section>
 
-        <!-- NEW: User List Card -->
+        <!-- Registered Users Card -->
         <section class="card list-card">
             <h2>Registered Users</h2>
             <div id="user-list" class="user-list">
                 <p class="empty-msg">No users added yet...</p>
             </div>
+            
+            <!-- Centered Signature inside the card -->
+            <div style="border-top: 1px solid rgba(255,255,255,0.1); margin-top: 20px; padding-top: 15px; text-align: center;">
+                <p style="font-size: 0.75rem; color: var(--text-dim);"> Built By <strong> Chekus </strong> with ❤️ </p>
+            </div>
         </section>
 
         <footer>
-               <p> Built By <strong> Chekus </strong> and ❤️ </p>
+            <!-- Space for extra page info if needed -->
         </footer>
     </main>
     <script src="/static/script.js"></script>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Management | Go System</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link href="https://fonts.googleapis.com" rel="stylesheet">
+</head>
+<body>
+    <main class="container">
+        <header>
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
+                <a href="/" class="back-link">← Dashboard</a>
+                <span id="status-tag">● System Live</span>
+            </div>
+            <h1>🛠️ User Management</h1>
+        </header>
+
+        <section class="card list-card">
+            <div class="card-header">
+                <h2>Active Directory</h2>
+                <span id="user-count" class="badge">0 Users</span>
+            </div>
+            
+            <div id="manage-list" class="user-list">
+                <!-- User rows injected here -->
+                <p class="empty-msg">Fetching database records...</p>
+            </div>
+
+            <div class="card-footer">
+                <p>Powered by <strong>Chekus Joseph Coder</strong></p>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        window.onload = function() {
+            fetch('/api/user')
+                .then(res => res.json())
+                .then(data => {
+                    const list = document.getElementById('manage-list');
+                    const count = document.getElementById('user-count');
+                    count.innerText = `${data.length} Users`;
+
+                    if (data.length === 0) {
+                        list.innerHTML = '<p class="empty-msg">No records found in database.</p>';
+                        return;
+                    }
+                    
+                    list.innerHTML = '';
+                    data.forEach(user => {
+                        const div = document.createElement('div');
+                        div.className = 'user-item manage-item';
+                        div.innerHTML = `
+                            <div class="user-info">
+                                <span class="user-name">${user.name}</span>
+                                <span class="user-id">UID: ${user.id}</span>
+                            </div>
+                            <button onclick="deleteUser(${user.id})" class="btn-delete">Delete</button>
+                        `;
+                        list.appendChild(div);
+                    });
+                });
+        };
+
+        function deleteUser(id) {
+            if(!confirm("Are you sure? This action cannot be undone.")) return;
+            fetch(`/api/user/${id}`, { method: 'DELETE' })
+                .then(res => {
+                    if(res.ok) location.reload();
+                    else alert("Failed to delete user.");
+                });
+        }
+    </script>
+</body>
+</html>
