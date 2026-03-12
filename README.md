@@ -14,12 +14,12 @@ A modern, high-performance web server built with Golang and a sleek Glassmorphis
 
 ## 📁 Project Structure
 
-├── main.go            # Backend Go server & API logic
-├── go.mod             # Go module definition
-└── static/            # Frontend assets
-    ├── index.html     # Dashboard layout
-    ├── style.css      # Modern Glassmorphism styling
-    └── script.js      # Frontend logic & API calls
+## ├── main.go            # Backend Go server & API logic
+## ├── go.mod             # Go module definition
+## └── static/            # Frontend assets
+   ## ├── index.html     # Dashboard layout
+    ## ├── style.css      # Modern Glassmorphism styling
+    ## └── script.js      # Frontend logic & API calls
 
 ## 🛠️ Installation & Setup
 ***1. Prerequisites***
