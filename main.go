@@ -27,23 +27,30 @@ func userHandler(w http.ResponseWriter, r *http.Request) {
 		var u User
 		json.NewDecoder(r.Body).Decode(&u)
 
-		// Save user to the list
 		usersMutex.Lock()
+		// 1. Check for Duplicates
+		for _, existingUser := range users {
+			if existingUser.Name == u.Name {
+				usersMutex.Unlock()
+				w.WriteHeader(http.StatusBadRequest)
+				json.NewEncoder(w).Encode(map[string]string{
+					"message": "❌ Error: User '" + u.Name + "' already exists!",
+				})
+				return
+			}
+		}
+
+		// 2. Add the User to the list
 		users = append(users, u)
 		usersMutex.Unlock()
 
-		u.Message = fmt.Sprintf("%s added successfully!", u.Name)
+		// 3. Send back the User object (including the ID)
+		u.Message = fmt.Sprintf("✅ Success! %s added.", u.Name)
 		w.WriteHeader(http.StatusCreated)
-		json.NewEncoder(w).Encode(u)
+		json.NewEncoder(w).Encode(u) // This sends the ID back to JS
 		return
 	}
-
-	// Allow frontend to GET the full list
-	if r.Method == http.MethodGet {
-		usersMutex.Lock()
-		json.NewEncoder(w).Encode(users)
-		usersMutex.Unlock()
-	}
+	// ... rest of GET logic ...
 }
 
 func main() {
