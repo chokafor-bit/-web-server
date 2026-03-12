@@ -8,53 +8,61 @@ import (
 	"time"
 )
 
-// User matches the JSON structure sent from the frontend script.js
+// Global variable to capture when the server starts
+var serverStartTime = time.Now().Format("15:04:05")
+
 type User struct {
-	ID   int    `json:"id"`
-	Name string `json:"name"`
+	ID      int    `json:"id"`
+	Name    string `json:"name"`
+	Message string `json:"message"` // Used for the success response
 }
 
-// userHandler processes the "Trigger API Call" button click
 func userHandler(w http.ResponseWriter, r *http.Request) {
-	// Only allow POST requests for this endpoint
 	if r.Method != http.MethodPost {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 		return
 	}
 
 	var u User
-	// Decode the JSON sent by the browser
 	if err := json.NewDecoder(r.Body).Decode(&u); err != nil {
 		http.Error(w, "Invalid JSON", http.StatusBadRequest)
 		return
 	}
 
-	// Logic: Let's modify the name slightly to show the server processed it
+	// MODIFIED: This sets the message that your JavaScript will display
+	u.Message = fmt.Sprintf("✅ Success! %s has been added to the system.", u.Name)
+
+	// Keep your original logic as well
 	u.Name = "Server says: Hello, " + u.Name
 
-	// Send the JSON back to the frontend
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
 	json.NewEncoder(w).Encode(u)
 }
 
 func main() {
-	// Create the router
 	mux := http.NewServeMux()
 
-	// 1. Serve static files (CSS, JS) from the /static/ directory
+	// 1. Serve static files
 	fs := http.FileServer(http.Dir("./static"))
 	mux.Handle("/static/", http.StripPrefix("/static/", fs))
 
-	// 2. Serve the index.html file at the root URL (http://localhost:8080)
+	// 2. Serve the index.html file
 	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		http.ServeFile(w, r, "./static/index.html")
 	})
 
-	// 3. The API endpoint the button in index.html calls
+	// 3. API endpoint for user registration
 	mux.HandleFunc("/api/user", userHandler)
 
-	// 4. Configure the server with timeouts for safety
+	// 4. NEW: API endpoint to provide the server start time
+	mux.HandleFunc("GET /api/status", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(map[string]string{
+			"started_at": serverStartTime,
+		})
+	})
+
 	server := &http.Server{
 		Addr:         ":8080",
 		Handler:      mux,
@@ -63,7 +71,9 @@ func main() {
 		IdleTimeout:  15 * time.Second,
 	}
 
-	fmt.Println("Modern Go Server is running at http://localhost:8080")
+	fmt.Printf("🚀 Modern Go Server is running at http://localhost:8080\n")
+	fmt.Printf("⏰ Server started at: %s\n", serverStartTime)
+
 	if err := server.ListenAndServe(); err != nil {
 		log.Fatal("Server failed to start:", err)
 	}
