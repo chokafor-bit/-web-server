@@ -61,5 +61,5 @@ function testAPI() {
         // Hide success message after 4 seconds
         setTimeout(() => responseBox.classList.add('hidden'), 4000);
     })
-    .catch(err => alert("Server Error: " + err))
+    .catch(err => alert("Server Error: " + err));
 }
