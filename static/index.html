@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Go Web Server | Pro Dashboard</title>
+    <title>Go Pro Dashboard</title>
     <link rel="stylesheet" href="/static/style.css">
     <link href="https://fonts.googleapis.com" rel="stylesheet">
 </head>
@@ -12,29 +12,34 @@
         <header>
             <h1>🚀 Go System Dashboard</h1>
             <div class="status-bar">
-                <span id="status-tag" class="online">● Server Online</span>
-                <span id="start-time" style="color: #94a3b8; font-size: 0.8rem;">Sever is running</span>
-                
+                <span id="status-tag">● Server Online</span>
+                <span id="start-time">Started: --:--:--</span>
+                <span id="live-clock">00:00:00</span>
             </div>
         </header>
 
+        <!-- Input Card -->
         <section class="card">
             <h2>User Registration</h2>
-            <p>Enter a name to send a request to the Go backend.</p>
-            
             <div class="input-group">
                 <input type="text" id="userName" placeholder="Enter name (e.g. Gopher)">
                 <button class="btn-primary" onclick="testAPI()">Add User</button>
             </div>
-            
             <div id="response-box" class="hidden">
-                <strong>Server Message:</strong>
-                <pre id="api-data">Waiting for input...</pre>
+                <pre id="api-data"></pre>
+            </div>
+        </section>
+
+        <!-- NEW: User List Card -->
+        <section class="card list-card">
+            <h2>Registered Users</h2>
+            <div id="user-list" class="user-list">
+                <p class="empty-msg">No users added yet...</p>
             </div>
         </section>
 
         <footer>
-            <p> Powered By <strong> Chekus Joseph Coder </strong> with ❤️ </p>
+               <p> Built By <strong> Chekus </strong> and ❤️ </p>
         </footer>
     </main>
     <script src="/static/script.js"></script>
