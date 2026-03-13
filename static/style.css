@@ -137,3 +137,9 @@ input:focus { border-color: var(--neon-cyan); }
     border-color: #ef4444;
     box-shadow: 0 0 15px rgba(239, 68, 68, 0.3);
 }
+.btn-clear:hover {
+    background: rgba(239, 68, 68, 0.2); /* Soft red glow on hover */
+    color: #f87171;
+    border-color: #f87171;
+    box-shadow: 0 0 10px rgba(239, 68, 68, 0.3);
+}
