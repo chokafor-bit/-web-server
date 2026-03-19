@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Go System Pro | Logs</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --neon-cyan: #00f5ff;
+  --neon-violet: #8b5cf6;
+  --text-main: #ffffff;
+  --text-dim: #9ca3af;
+  --neon-green: #22c55e;
+  --neon-red: #ef4444;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+
+body {
+  background: radial-gradient(circle at top, #0f172a, #020617);
+  color: var(--text-main);
+  min-height: 100vh;
+}
+
+nav {
+  width: 100%;
+  padding: 20px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 1.3rem;
+  font-weight: 700;
+  background: linear-gradient(to right, var(--neon-cyan), var(--neon-violet));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+nav ul { display: flex; list-style: none; gap: 25px; }
+nav ul li a { color: var(--text-dim); text-decoration: none; font-size: 0.9rem; transition: 0.3s; }
+nav ul li a:hover { color: white; }
+
+.container { max-width: 900px; margin: auto; padding: 30px 20px 60px; }
+
+.top-nav { display: flex; justify-content: space-between; margin-bottom: 15px; font-size: 0.85rem; }
+.back-link { color: var(--text-dim); text-decoration: none; }
+.back-link:hover { color: white; }
+
+.status-tag {
+  color: var(--neon-green);
+  font-weight: bold;
+  animation: neon-glow 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes neon-glow {
+  0% { text-shadow: 0 0 5px var(--neon-green), 0 0 10px var(--neon-green); }
+  100% { text-shadow: 0 0 15px var(--neon-green), 0 0 30px var(--neon-green); }
+}
+
+.centered-title { font-size: 2rem; text-align: center; margin-bottom: 5px; }
+.centered-sub { text-align: center; color: var(--text-dim); font-size: 0.85rem; margin-bottom: 28px; }
+
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.filter-btns { display: flex; gap: 8px; }
+
+.filter-btn {
+  background: #020617;
+  border: 1px solid rgba(255,255,255,0.1);
+  color: var(--text-dim);
+  padding: 7px 14px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.filter-btn:hover { border-color: var(--neon-cyan); color: var(--neon-cyan); }
+.filter-btn.active { border-color: var(--neon-cyan); color: var(--neon-cyan); }
+.filter-btn.active-red { border-color: var(--neon-red); color: var(--neon-red); }
+.filter-btn.active-green { border-color: var(--neon-green); color: var(--neon-green); }
+
+.live-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  color: var(--text-dim);
+}
+
+.live-dot {
+  width: 7px;
+  height: 7px;
+  background: var(--neon-green);
+  border-radius: 50%;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.8); }
+}
+
+.card {
+  background: linear-gradient(145deg, #0f172a, #020617);
+  border-radius: 18px;
+  padding: 24px;
+  border: 1px solid rgba(255,255,255,0.05);
+  box-shadow: 0 0 25px rgba(0,245,255,0.04);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.card-header h2 { font-size: 1rem; }
+
+.badge {
+  background: #020617;
+  padding: 5px 12px;
+  border-radius: 10px;
+  font-size: 0.78rem;
+  color: var(--text-dim);
+}
+
+.log-feed {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 520px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.log-feed::-webkit-scrollbar { width: 4px; }
+.log-feed::-webkit-scrollbar-track { background: transparent; }
+.log-feed::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
+
+.log-entry {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: #020617;
+  padding: 12px 15px;
+  border-radius: 10px;
+  border-left: 3px solid transparent;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.82rem;
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.log-entry.added { border-left-color: var(--neon-green); }
+.log-entry.deleted { border-left-color: var(--neon-red); }
+
+.log-icon { font-size: 1rem; flex-shrink: 0; }
+.log-body { flex: 1; }
+.log-action { font-weight: 600; }
+.log-action.added { color: var(--neon-green); }
+.log-action.deleted { color: var(--neon-red); }
+.log-target { color: var(--text-main); }
+.log-time { color: var(--text-dim); font-size: 0.75rem; margin-top: 2px; }
+.log-id { color: rgba(255,255,255,0.2); font-size: 0.72rem; flex-shrink: 0; }
+
+.empty-msg { color: var(--text-dim); font-size: 0.88rem; text-align: center; padding: 40px 0; }
+
+.card-footer {
+  border-top: 1px solid rgba(255,255,255,0.07);
+  margin-top: 20px;
+  padding-top: 15px;
+  text-align: center;
+  font-size: 0.75rem;
+  color: var(--text-dim);
+}
+
+@media (max-width: 600px) {
+  nav ul { gap: 12px; }
+  .toolbar { flex-direction: column; align-items: flex-start; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">Go System Pro</div>
+  <ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="/dashboard">Dashboard</a></li>
+    <li><a href="/manage">Management</a></li>
+    <li><a href="/analytics">Analytics</a></li>
+    <li><a href="/logs">Logs</a></li>
+    <li><a href="/system-status">Status</a></li>
+  </ul>
+</nav>
+
+<main class="container">
+
+  <div class="top-nav">
+    <a href="/dashboard" class="back-link">← Back to Dashboard</a>
+    <span class="status-tag">● System Live</span>
+  </div>
+
+  <h1 class="centered-title">📋 Activity Logs</h1>
+  <p class="centered-sub">Live feed of all user actions — additions and deletions</p>
+
+  <div class="toolbar">
+    <div class="filter-btns">
+      <button class="filter-btn active" onclick="setFilter('all', this)">All</button>
+      <button class="filter-btn" onclick="setFilter('added', this)">✅ Added</button>
+      <button class="filter-btn" onclick="setFilter('deleted', this)">🗑️ Deleted</button>
+    </div>
+    <div class="live-badge">
+      <div class="live-dot"></div>
+      Auto-refreshing every 5s
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <h2>Event Log</h2>
+      <span id="log-count" class="badge">0 Events</span>
+    </div>
+
+    <div id="log-feed" class="log-feed">
+      <p class="empty-msg">Loading logs...</p>
+    </div>
+
+    <div class="card-footer">
+      Version <strong>v1.2.0 Stable</strong> • Built by <strong>Chekus Joseph</strong>
+    </div>
+  </div>
+
+</main>
+
+<script>
+let currentFilter = 'all';
+let allLogs = [];
+
+function setFilter(type, btn) {
+  currentFilter = type;
+  document.querySelectorAll('.filter-btn').forEach(b => {
+    b.classList.remove('active', 'active-red', 'active-green');
+  });
+  if (type === 'all') btn.classList.add('active');
+  else if (type === 'added') btn.classList.add('active-green');
+  else if (type === 'deleted') btn.classList.add('active-red');
+  renderLogs();
+}
+
+function renderLogs() {
+  const feed = document.getElementById('log-feed');
+  const filtered = currentFilter === 'all' ? allLogs : allLogs.filter(l => l.action === currentFilter);
+
+  document.getElementById('log-count').textContent = `${filtered.length} Events`;
+
+  if (filtered.length === 0) {
+    feed.innerHTML = '<p class="empty-msg">No events found.</p>';
+    return;
+  }
+
+  feed.innerHTML = filtered.map(log => `
+    <div class="log-entry ${log.action}">
+      <div class="log-icon">${log.action === 'added' ? '✅' : '🗑️'}</div>
+      <div class="log-body">
+        <div>
+          <span class="log-action ${log.action}">${log.action === 'added' ? 'USER ADDED' : 'USER DELETED'}</span>
+          <span class="log-target"> — ${log.target}</span>
+        </div>
+        <div class="log-time">${log.timestamp} WAT</div>
+      </div>
+      <div class="log-id">#${log.id}</div>
+    </div>
+  `).join('');
+}
+
+function loadLogs() {
+  fetch('/api/logs')
+    .then(res => res.json())
+    .then(data => {
+      allLogs = data || [];
+      renderLogs();
+    })
+    .catch(() => {
+      document.getElementById('log-feed').innerHTML = '<p class="empty-msg">Failed to load logs.</p>';
+    });
+}
+
+window.onload = loadLogs;
+setInterval(loadLogs, 5000);
+</script>
+
+</body>
+</html>

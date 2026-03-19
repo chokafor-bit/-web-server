@@ -229,7 +229,7 @@ nav ul li a:hover {
 <body>
 
 <nav>
-  <div class="logo">Go System Pro</div>
+  <div class="logo"></div>
   <ul>
     <li><a href="/">Home</a></li>
     <li><a href="/dashboard">Dashboard</a></li>
@@ -242,7 +242,7 @@ nav ul li a:hover {
 
 <header class="manage-header">
   <div class="top-nav">
-    <a href="/dashboard" class="back-link">← Back to Dashboard</a>
+    <a href="/dashboard" class="back-link"></a>
     <span class="status-tag">● System Live</span>
   </div>
 
@@ -290,7 +290,7 @@ window.onload = function() {
 
                 div.innerHTML = `
                     <div class="user-info">
-                        <span class="user-name">${user.name}</span>
+                        <span class="user-name">${user.username}</span>
                         <span class="user-id">UID: ${user.id}</span>
                     </div>
                     <button onclick="deleteUser(${user.id})" class="btn-delete">Delete</button>

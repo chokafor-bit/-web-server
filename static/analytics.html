@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Go System Pro | Analytics</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root {
+  --bg-dark: #0b0f1a;
+  --card-dark: #111827;
+  --neon-cyan: #00f5ff;
+  --neon-violet: #8b5cf6;
+  --text-main: #ffffff;
+  --text-dim: #9ca3af;
+  --neon-green: #22c55e;
+  --neon-red: #ef4444;
+  --neon-yellow: #f59e0b;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+
+body {
+  background: radial-gradient(circle at top, #0f172a, #020617);
+  color: var(--text-main);
+  min-height: 100vh;
+}
+
+nav {
+  width: 100%;
+  padding: 20px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 1.3rem;
+  font-weight: 700;
+  background: linear-gradient(to right, var(--neon-cyan), var(--neon-violet));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+nav ul { display: flex; list-style: none; gap: 25px; }
+nav ul li a { color: var(--text-dim); text-decoration: none; font-size: 0.9rem; transition: 0.3s; }
+nav ul li a:hover { color: white; }
+
+.container { max-width: 1100px; margin: auto; padding: 30px 20px 60px; }
+
+.page-header { margin-bottom: 30px; }
+
+.top-nav {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  font-size: 0.85rem;
+}
+
+.back-link { color: var(--text-dim); text-decoration: none; }
+.back-link:hover { color: white; }
+
+.status-tag {
+  color: var(--neon-green);
+  font-weight: bold;
+  text-shadow: 0 0 10px var(--neon-green), 0 0 20px var(--neon-green);
+  animation: neon-glow 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes neon-glow {
+  0% { text-shadow: 0 0 5px var(--neon-green), 0 0 10px var(--neon-green); }
+  100% { text-shadow: 0 0 15px var(--neon-green), 0 0 30px var(--neon-green); }
+}
+
+.centered-title { font-size: 2rem; text-align: center; margin-bottom: 5px; }
+.centered-sub { text-align: center; color: var(--text-dim); font-size: 0.85rem; margin-bottom: 30px; }
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.stat-card {
+  background: linear-gradient(145deg, #0f172a, #020617);
+  border-radius: 16px;
+  padding: 22px 24px;
+  border: 1px solid rgba(255,255,255,0.05);
+  box-shadow: 0 0 20px rgba(0,245,255,0.04);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.stat-label { font-size: 0.78rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.08em; }
+.stat-value { font-size: 2.2rem; font-weight: 700; }
+.stat-value.cyan { color: var(--neon-cyan); text-shadow: 0 0 10px rgba(0,245,255,0.4); }
+.stat-value.green { color: var(--neon-green); text-shadow: 0 0 10px rgba(34,197,94,0.4); }
+.stat-value.red { color: var(--neon-red); text-shadow: 0 0 10px rgba(239,68,68,0.4); }
+.stat-desc { font-size: 0.75rem; color: var(--text-dim); }
+
+.chart-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 16px;
+}
+
+.card {
+  background: linear-gradient(145deg, #0f172a, #020617);
+  border-radius: 18px;
+  padding: 24px;
+  border: 1px solid rgba(255,255,255,0.05);
+  box-shadow: 0 0 25px rgba(0,245,255,0.04);
+}
+
+.card-title {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.card-title span { color: var(--text-dim); font-size: 0.78rem; font-weight: 400; }
+
+canvas { width: 100% !important; }
+
+.chart-footer {
+  margin-top: 14px;
+  font-size: 0.73rem;
+  color: var(--text-dim);
+  text-align: right;
+}
+
+.donut-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.82rem;
+}
+
+.legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.page-footer {
+  border-top: 1px solid rgba(255,255,255,0.07);
+  margin-top: 30px;
+  padding-top: 16px;
+  text-align: center;
+  font-size: 0.75rem;
+  color: var(--text-dim);
+}
+
+@media (max-width: 750px) {
+  .stats-grid { grid-template-columns: 1fr; }
+  .chart-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">Go System Pro</div>
+  <ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="/dashboard">Dashboard</a></li>
+    <li><a href="/manage">Management</a></li>
+    <li><a href="/analytics">Analytics</a></li>
+    <li><a href="/logs">Logs</a></li>
+    <li><a href="/system-status">Status</a></li>
+  </ul>
+</nav>
+
+<main class="container">
+
+  <div class="page-header">
+    <div class="top-nav">
+      <a href="/dashboard" class="back-link">← Back to Dashboard</a>
+      <span class="status-tag">● System Live</span>
+    </div>
+    <h1 class="centered-title">📊 Analytics</h1>
+    <p class="centered-sub">User growth, registrations, and activity overview</p>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-label">Total Users</div>
+      <div class="stat-value cyan" id="total-users">—</div>
+      <div class="stat-desc">All registered accounts</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Registered Today</div>
+      <div class="stat-value green" id="today-users">—</div>
+      <div class="stat-desc">New users today (WAT)</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Total Deleted</div>
+      <div class="stat-value red" id="deleted-users">—</div>
+      <div class="stat-desc">Accounts removed</div>
+    </div>
+  </div>
+
+  <div class="chart-grid">
+    <div class="card">
+      <div class="card-title">Registrations — Last 7 Days <span>daily count</span></div>
+      <canvas id="lineChart" height="200"></canvas>
+      <div class="chart-footer" id="chart-footer">Loading data...</div>
+    </div>
+    <div class="card">
+      <div class="card-title">User Breakdown</div>
+      <canvas id="donutChart" height="200"></canvas>
+      <div class="donut-legend">
+        <div class="legend-item">
+          <div class="legend-dot" style="background: #00f5ff;"></div>
+          <span>Active Users</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot" style="background: #ef4444;"></div>
+          <span>Deleted Users</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-footer">
+    Version <strong>v1.2.0 Stable</strong> • Built by <strong>Chekus Joseph</strong>
+  </div>
+
+</main>
+
+<script>
+let lineChart, donutChart;
+
+function initCharts(history, total, deleted) {
+  const labels = history.map(h => {
+    const d = new Date(h.date);
+    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+  });
+  const counts = history.map(h => h.count);
+
+  const lineCtx = document.getElementById('lineChart').getContext('2d');
+  lineChart = new Chart(lineCtx, {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [{
+        label: 'Registrations',
+        data: counts,
+        backgroundColor: 'rgba(0,245,255,0.15)',
+        borderColor: '#00f5ff',
+        borderWidth: 2,
+        borderRadius: 6,
+        hoverBackgroundColor: 'rgba(0,245,255,0.3)',
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: '#0f172a',
+          borderColor: '#00f5ff',
+          borderWidth: 1,
+          titleColor: '#fff',
+          bodyColor: '#9ca3af',
+        }
+      },
+      scales: {
+        x: { ticks: { color: '#9ca3af', font: { size: 11 } }, grid: { color: 'rgba(255,255,255,0.04)' } },
+        y: { ticks: { color: '#9ca3af', font: { size: 11 }, stepSize: 1 }, grid: { color: 'rgba(255,255,255,0.04)' } }
+      }
+    }
+  });
+
+  const donutCtx = document.getElementById('donutChart').getContext('2d');
+  donutChart = new Chart(donutCtx, {
+    type: 'doughnut',
+    data: {
+      labels: ['Active', 'Deleted'],
+      datasets: [{
+        data: [total > 0 || deleted > 0 ? total : 1, deleted],
+        backgroundColor: ['rgba(0,245,255,0.7)', 'rgba(239,68,68,0.7)'],
+        borderColor: ['#00f5ff', '#ef4444'],
+        borderWidth: 2,
+        hoverOffset: 6,
+      }]
+    },
+    options: {
+      responsive: true,
+      cutout: '70%',
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: '#0f172a',
+          borderColor: '#8b5cf6',
+          borderWidth: 1,
+          titleColor: '#fff',
+          bodyColor: '#9ca3af',
+        }
+      }
+    }
+  });
+}
+
+function loadAnalytics() {
+  fetch('/api/analytics')
+    .then(res => res.json())
+    .then(data => {
+      document.getElementById('total-users').textContent = data.total_users;
+      document.getElementById('today-users').textContent = data.today;
+      document.getElementById('deleted-users').textContent = data.total_deleted;
+      document.getElementById('chart-footer').textContent =
+        `Showing data from ${data.history[0].date} to ${data.history[data.history.length - 1].date}`;
+      if (lineChart) lineChart.destroy();
+      if (donutChart) donutChart.destroy();
+      initCharts(data.history, data.total_users, data.total_deleted);
+    })
+    .catch(() => {
+      document.getElementById('chart-footer').textContent = 'Failed to load analytics data.';
+    });
+}
+
+window.onload = loadAnalytics;
+setInterval(loadAnalytics, 30000);
+</script>
+
+</body>
+</html>

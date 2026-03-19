@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Go System Pro | System Status</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --neon-cyan: #00f5ff;
+  --neon-violet: #8b5cf6;
+  --text-main: #ffffff;
+  --text-dim: #9ca3af;
+  --neon-green: #22c55e;
+  --neon-red: #ef4444;
+  --neon-yellow: #f59e0b;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+
+body {
+  background: radial-gradient(circle at top, #0f172a, #020617);
+  color: var(--text-main);
+  min-height: 100vh;
+}
+
+nav {
+  width: 100%;
+  padding: 20px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 1.3rem;
+  font-weight: 700;
+  background: linear-gradient(to right, var(--neon-cyan), var(--neon-violet));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+nav ul { display: flex; list-style: none; gap: 25px; }
+nav ul li a { color: var(--text-dim); text-decoration: none; font-size: 0.9rem; transition: 0.3s; }
+nav ul li a:hover { color: white; }
+
+.container { max-width: 1000px; margin: auto; padding: 30px 20px 60px; }
+
+.top-nav { display: flex; justify-content: space-between; margin-bottom: 15px; font-size: 0.85rem; }
+.back-link { color: var(--text-dim); text-decoration: none; }
+.back-link:hover { color: white; }
+
+.status-tag {
+  color: var(--neon-green);
+  font-weight: bold;
+  animation: neon-glow 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes neon-glow {
+  0% { text-shadow: 0 0 5px var(--neon-green), 0 0 10px var(--neon-green); }
+  100% { text-shadow: 0 0 15px var(--neon-green), 0 0 30px var(--neon-green); }
+}
+
+.centered-title { font-size: 2rem; text-align: center; margin-bottom: 5px; }
+.centered-sub { text-align: center; color: var(--text-dim); font-size: 0.85rem; margin-bottom: 30px; }
+
+.uptime-hero {
+  background: linear-gradient(145deg, #0f172a, #020617);
+  border: 1px solid rgba(0,245,255,0.15);
+  border-radius: 20px;
+  padding: 36px 24px;
+  text-align: center;
+  margin-bottom: 20px;
+  box-shadow: 0 0 40px rgba(0,245,255,0.06);
+  position: relative;
+  overflow: hidden;
+}
+
+.uptime-hero::before {
+  content: '';
+  position: absolute;
+  top: -40px; left: -40px;
+  width: 200px; height: 200px;
+  background: radial-gradient(circle, rgba(0,245,255,0.06), transparent 70%);
+  pointer-events: none;
+}
+
+.uptime-label { font-size: 0.78rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 10px; }
+
+.uptime-clock {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 3rem;
+  font-weight: 600;
+  color: var(--neon-cyan);
+  text-shadow: 0 0 20px rgba(0,245,255,0.5), 0 0 40px rgba(0,245,255,0.2);
+  letter-spacing: 0.05em;
+}
+
+.uptime-since { margin-top: 10px; font-size: 0.82rem; color: var(--text-dim); }
+.uptime-since strong { color: var(--text-main); }
+
+.health-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 16px;
+  font-size: 0.82rem;
+}
+
+.health-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--neon-green);
+  box-shadow: 0 0 8px var(--neon-green);
+  animation: hpulse 2s infinite;
+}
+
+@keyframes hpulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.3); opacity: 0.7; }
+}
+
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.metric-card {
+  background: linear-gradient(145deg, #0f172a, #020617);
+  border-radius: 14px;
+  padding: 18px 20px;
+  border: 1px solid rgba(255,255,255,0.05);
+}
+
+.metric-label {
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  margin-bottom: 8px;
+}
+
+.metric-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.metric-value.cyan { color: var(--neon-cyan); }
+.metric-value.violet { color: var(--neon-violet); }
+.metric-value.yellow { color: var(--neon-yellow); }
+.metric-value.green { color: var(--neon-green); }
+
+.metric-sub { font-size: 0.72rem; color: var(--text-dim); margin-top: 4px; }
+
+.card {
+  background: linear-gradient(145deg, #0f172a, #020617);
+  border-radius: 18px;
+  padding: 24px;
+  border: 1px solid rgba(255,255,255,0.05);
+  margin-bottom: 16px;
+}
+
+.card-title { font-size: 1rem; font-weight: 600; margin-bottom: 18px; }
+
+.mem-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  font-size: 0.85rem;
+}
+
+.mem-row:last-child { border-bottom: none; }
+.mem-key { color: var(--text-dim); }
+.mem-val { font-family: 'JetBrains Mono', monospace; }
+
+.card-footer {
+  border-top: 1px solid rgba(255,255,255,0.07);
+  margin-top: 20px;
+  padding-top: 15px;
+  text-align: center;
+  font-size: 0.75rem;
+  color: var(--text-dim);
+}
+
+@media (max-width: 700px) {
+  .metrics-grid { grid-template-columns: repeat(2, 1fr); }
+  .uptime-clock { font-size: 2rem; }
+  nav ul { gap: 12px; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">Go System Pro</div>
+  <ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="/dashboard">Dashboard</a></li>
+    <li><a href="/manage">Management</a></li>
+    <li><a href="/analytics">Analytics</a></li>
+    <li><a href="/logs">Logs</a></li>
+    <li><a href="/system-status">Status</a></li>
+  </ul>
+</nav>
+
+<main class="container">
+
+  <div class="top-nav">
+    <a href="/dashboard" class="back-link">← Back to Dashboard</a>
+    <span class="status-tag">● System Live</span>
+  </div>
+
+  <h1 class="centered-title">⚙️ System Status</h1>
+  <p class="centered-sub">Server health, runtime metrics, and memory usage</p>
+
+  <div class="uptime-hero">
+    <div class="uptime-label">Server Uptime</div>
+    <div class="uptime-clock" id="uptime-clock">00h 00m 00s</div>
+    <div class="uptime-since">Started at <strong id="started-at">—</strong> WAT</div>
+    <div class="health-row">
+      <div class="health-dot"></div>
+      <span>All systems operational</span>
+    </div>
+  </div>
+
+  <div class="metrics-grid">
+    <div class="metric-card">
+      <div class="metric-label">Total Users</div>
+      <div class="metric-value cyan" id="total-users">—</div>
+      <div class="metric-sub">Registered accounts</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Go Version</div>
+      <div class="metric-value violet" id="go-version">—</div>
+      <div class="metric-sub">Runtime version</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Platform</div>
+      <div class="metric-value yellow" id="platform">—</div>
+      <div class="metric-sub">OS / Architecture</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">CPU Cores</div>
+      <div class="metric-value green" id="num-cpu">—</div>
+      <div class="metric-sub">Available processors</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Goroutines</div>
+      <div class="metric-value cyan" id="goroutines">—</div>
+      <div class="metric-sub">Active goroutines</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Heap Alloc</div>
+      <div class="metric-value violet" id="alloc-mb">—</div>
+      <div class="metric-sub">Currently allocated MB</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🧠 Memory Details</div>
+    <div class="mem-row"><span class="mem-key">Heap Allocated</span><span class="mem-val" id="m-alloc">—</span></div>
+    <div class="mem-row"><span class="mem-key">Total Allocated (lifetime)</span><span class="mem-val" id="m-total">—</span></div>
+    <div class="mem-row"><span class="mem-key">System Memory</span><span class="mem-val" id="m-sys">—</span></div>
+    <div class="card-footer">
+      Version <strong>v1.2.0 Stable</strong> • Built by <strong>Chekus Joseph</strong>
+    </div>
+  </div>
+
+</main>
+
+<script>
+let uptimeSecs = 0;
+let clockInterval;
+
+function formatUptime(secs) {
+  const h = Math.floor(secs / 3600);
+  const m = Math.floor((secs % 3600) / 60);
+  const s = secs % 60;
+  return `${String(h).padStart(2,'0')}h ${String(m).padStart(2,'0')}m ${String(s).padStart(2,'0')}s`;
+}
+
+function startClock() {
+  clearInterval(clockInterval);
+  clockInterval = setInterval(() => {
+    uptimeSecs++;
+    document.getElementById('uptime-clock').textContent = formatUptime(uptimeSecs);
+  }, 1000);
+}
+
+function loadStatus() {
+  fetch('/api/status')
+    .then(res => res.json())
+    .then(data => {
+      uptimeSecs = data.uptime_secs || 0;
+      document.getElementById('uptime-clock').textContent = formatUptime(uptimeSecs);
+      document.getElementById('started-at').textContent = data.started_at;
+      document.getElementById('total-users').textContent = data.total_users;
+      document.getElementById('go-version').textContent = data.go_version;
+      document.getElementById('platform').textContent = `${data.os} / ${data.arch}`;
+      document.getElementById('num-cpu').textContent = data.num_cpu;
+      document.getElementById('goroutines').textContent = data.goroutines;
+      document.getElementById('alloc-mb').textContent = `${data.alloc_mb} MB`;
+      document.getElementById('m-alloc').textContent = `${data.alloc_mb} MB`;
+      document.getElementById('m-total').textContent = `${data.total_alloc_mb} MB`;
+      document.getElementById('m-sys').textContent = `${data.sys_mb} MB`;
+      startClock();
+    })
+    .catch(() => {
+      document.getElementById('uptime-clock').textContent = 'Error loading';
+    });
+}
+
+window.onload = loadStatus;
+setInterval(loadStatus, 30000);
+</script>
+
+</body>
+</html>
