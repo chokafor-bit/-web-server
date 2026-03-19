@@ -4,228 +4,53 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Go System Pro | Management</title>
-
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-
 <style>
 :root {
-  --bg-dark: #0b0f1a;
-  --card-dark: #111827;
   --neon-cyan: #00f5ff;
   --neon-violet: #8b5cf6;
   --text-main: #ffffff;
   --text-dim: #9ca3af;
   --neon-green: #22c55e;
 }
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Inter', sans-serif;
-}
-
-body {
-  background: radial-gradient(circle at top, #0f172a, #020617);
-  color: var(--text-main);
-  min-height: 100vh;
-}
-
-/* NAVBAR */
-nav {
-  width: 100%;
-  padding: 20px 40px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.logo {
-  font-size: 1.3rem;
-  font-weight: 700;
-  background: linear-gradient(to right, var(--neon-cyan), var(--neon-violet));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-nav ul {
-  display: flex;
-  list-style: none;
-  gap: 25px;
-}
-
-nav ul li a {
-  color: var(--text-dim);
-  text-decoration: none;
-  font-size: 0.9rem;
-  transition: 0.3s;
-}
-
-nav ul li a:hover {
-  color: white;
-}
-
-/* CONTAINER */
-.container {
-  max-width: 1000px;
-  margin: auto;
-  padding: 30px 20px 50px;
-}
-
-/* HEADER */
-.manage-header {
-  margin-bottom: 25px;
-}
-
-.top-nav {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 15px;
-  font-size: 0.85rem;
-}
-
-.back-link {
-  color: var(--text-dim);
-  text-decoration: none;
-}
-
-.back-link:hover {
-  color: white;
-}
-
-.centered-title {
-  font-size: 2rem;
-  text-align: center;
-  margin-bottom: 10px;
-}
-
-/* Glowing neon green status */
-.status-tag {
-  color: var(--neon-green);
-  font-weight: bold;
-  text-shadow:
-    0 0 5px var(--neon-green),
-    0 0 10px var(--neon-green),
-    0 0 15px var(--neon-green),
-    0 0 20px var(--neon-green);
-  animation: neon-glow 1.5s ease-in-out infinite alternate;
-}
-
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+body { background: radial-gradient(circle at top, #0f172a, #020617); color: var(--text-main); min-height: 100vh; }
+nav { width: 100%; padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; }
+.logo { font-size: 1.3rem; font-weight: 700; background: linear-gradient(to right, var(--neon-cyan), var(--neon-violet)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+nav ul { display: flex; list-style: none; gap: 25px; }
+nav ul li a { color: var(--text-dim); text-decoration: none; font-size: 0.9rem; transition: 0.3s; }
+nav ul li a:hover { color: white; }
+.container { max-width: 1000px; margin: auto; padding: 30px 20px 50px; }
+.manage-header { margin-bottom: 25px; }
+.top-nav { display: flex; justify-content: space-between; margin-bottom: 15px; font-size: 0.85rem; }
+.back-link { color: var(--text-dim); text-decoration: none; }
+.back-link:hover { color: white; }
+.centered-title { font-size: 2rem; text-align: center; margin-bottom: 10px; }
+.status-tag { color: var(--neon-green); font-weight: bold; animation: neon-glow 1.5s ease-in-out infinite alternate; }
 @keyframes neon-glow {
-  0% {
-    text-shadow:
-      0 0 5px var(--neon-green),
-      0 0 10px var(--neon-green),
-      0 0 15px var(--neon-green),
-      0 0 20px var(--neon-green);
-  }
-  100% {
-    text-shadow:
-      0 0 10px var(--neon-green),
-      0 0 20px var(--neon-green),
-      0 0 30px var(--neon-green),
-      0 0 40px var(--neon-green);
-  }
+  0% { text-shadow: 0 0 5px var(--neon-green), 0 0 10px var(--neon-green), 0 0 15px var(--neon-green); }
+  100% { text-shadow: 0 0 10px var(--neon-green), 0 0 20px var(--neon-green), 0 0 40px var(--neon-green); }
 }
-
-/* CARD */
-.card {
-  background: linear-gradient(145deg, #0f172a, #020617);
-  padding: 25px;
-  border-radius: 18px;
-  box-shadow: 0 0 25px rgba(0,245,255,0.05);
-}
-
-.card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 15px;
-}
-
-.card-header h2 {
-  font-size: 1.2rem;
-}
-
-.badge {
-  background: #020617;
-  padding: 6px 12px;
-  border-radius: 10px;
-  font-size: 0.8rem;
-  color: var(--text-dim);
-}
-
-/* USER LIST */
-.user-list {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.manage-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: #020617;
-  padding: 14px 15px;
-  border-radius: 12px;
-}
-
-.user-info {
-  display: flex;
-  flex-direction: column;
-}
-
-.user-name {
-  font-size: 0.95rem;
-}
-
-.user-id {
-  font-size: 0.75rem;
-  color: var(--text-dim);
-}
-
-.btn-delete {
-  background: #ef4444;
-  border: none;
-  padding: 8px 14px;
-  border-radius: 8px;
-  font-size: 0.8rem;
-  color: white;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.btn-delete:hover {
-  transform: scale(1.05);
-}
-
-.empty-msg {
-  color: var(--text-dim);
-  font-size: 0.9rem;
-}
-
-/* FOOTER */
-.card-footer {
-  border-top: 1px solid rgba(255,255,255,0.1);
-  margin-top: 20px;
-  padding-top: 15px;
-  text-align: center;
-  font-size: 0.75rem;
-  color: var(--text-dim);
-}
-
-/* RESPONSIVE */
+.card { background: linear-gradient(145deg, #0f172a, #020617); padding: 25px; border-radius: 18px; box-shadow: 0 0 25px rgba(0,245,255,0.05); }
+.card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+.card-header h2 { font-size: 1.2rem; }
+.badge { background: #020617; padding: 6px 12px; border-radius: 10px; font-size: 0.8rem; color: var(--text-dim); }
+.user-list { display: flex; flex-direction: column; gap: 10px; }
+.manage-item { display: flex; justify-content: space-between; align-items: center; background: #020617; padding: 14px 15px; border-radius: 12px; }
+.user-info { display: flex; flex-direction: column; gap: 3px; }
+.user-name { font-size: 0.95rem; }
+.user-email { font-size: 0.75rem; color: var(--text-dim); }
+.user-id { font-size: 0.75rem; color: var(--text-dim); }
+.btn-delete { background: #ef4444; border: none; padding: 8px 14px; border-radius: 8px; font-size: 0.8rem; color: white; cursor: pointer; transition: 0.3s; }
+.btn-delete:hover { transform: scale(1.05); }
+.empty-msg { color: var(--text-dim); font-size: 0.9rem; }
+.card-footer { border-top: 1px solid rgba(255,255,255,0.1); margin-top: 20px; padding-top: 15px; text-align: center; font-size: 0.75rem; color: var(--text-dim); }
 @media (max-width: 700px) {
-  .manage-item {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-  }
+  .manage-item { flex-direction: column; align-items: flex-start; gap: 10px; }
+  nav ul { gap: 12px; }
 }
 </style>
 </head>
-
 <body>
 
 <nav>
@@ -234,7 +59,9 @@ nav ul li a:hover {
     <li><a href="/">Home</a></li>
     <li><a href="/dashboard">Dashboard</a></li>
     <li><a href="/manage">Management</a></li>
-    <li><a href="#">Logout</a></li>
+    <li><a href="/analytics">Analytics</a></li>
+    <li><a href="/logs">Logs</a></li>
+    <li><a href="/system-status">Status</a></li>
   </ul>
 </nav>
 
@@ -245,12 +72,10 @@ nav ul li a:hover {
     <a href="/dashboard" class="back-link"></a>
     <span class="status-tag">● System Live</span>
   </div>
-
   <h1 class="centered-title">🛠️ User Management</h1>
 </header>
 
 <section class="card">
-
   <div class="card-header">
     <h2>Active Users</h2>
     <span id="user-count" class="badge">0 Users</span>
@@ -261,15 +86,14 @@ nav ul li a:hover {
   </div>
 
   <div class="card-footer">
-    Version <strong>v1.2.0 Stable</strong> • Built by <strong>Chekus Joseph</strong>
+    <strong></strong><strong></strong>
   </div>
-
 </section>
 
 </main>
 
 <script>
-window.onload = function() {
+function loadUsers() {
     fetch('/api/user')
         .then(res => res.json())
         .then(data => {
@@ -283,30 +107,34 @@ window.onload = function() {
             }
 
             list.innerHTML = '';
-
             data.forEach(user => {
                 const div = document.createElement('div');
                 div.className = 'manage-item';
-
                 div.innerHTML = `
                     <div class="user-info">
                         <span class="user-name">${user.username}</span>
-                        <span class="user-id">UID: ${user.id}</span>
+                        <span class="user-email">${user.email || ''}</span>
+                        <span class="user-id">UID: ${user.id} • Joined: ${user.registered_at || 'N/A'}</span>
                     </div>
                     <button onclick="deleteUser(${user.id})" class="btn-delete">Delete</button>
                 `;
-
                 list.appendChild(div);
             });
+        })
+        .catch(() => {
+            document.getElementById('manage-list').innerHTML =
+                '<p class="empty-msg">Failed to fetch users.</p>';
         });
-};
+}
 
 function deleteUser(id) {
-    if(!confirm("Are you sure you want to delete this user?")) return;
-
+    if (!confirm("Are you sure you want to delete this user?")) return;
     fetch(`/api/user/${id}`, { method: 'DELETE' })
-        .then(() => location.reload());
+        .then(() => loadUsers());
 }
+
+window.onload = loadUsers;
+setInterval(loadUsers, 10000);
 </script>
 
 </body>

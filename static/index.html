@@ -130,7 +130,7 @@ header h1 { font-size: 2rem; margin-bottom: 10px; }
 <body>
 
 <nav>
-  <div class="logo">Go System Pro</div>
+  <div class="logo"></div>
   <ul>
     <li><a href="/">Home</a></li>
     <li><a href="/dashboard">Dashboard</a></li>
@@ -160,20 +160,6 @@ header h1 { font-size: 2rem; margin-bottom: 10px; }
       <button class="btn-primary" id="addBtn" onclick="addUser()">Add User</button>
       <div id="feedback"></div>
     </div>
-
-    <div class="card">
-      <h2>Registered Users</h2>
-      <div class="user-list" id="user-list">
-        <p class="empty-msg">No users added yet...</p>
-      </div>
-    </div>
-  </div>
-
-  <div class="footer">
-    Version v1.3.0 Stable &bull; Built by Chekus Joseph
-  </div>
-</div>
-
 <script>
 const API = '/api/user';
 
