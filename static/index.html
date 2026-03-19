@@ -1,60 +1,272 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Go Pro Dashboard</title>
-    <link rel="stylesheet" href="/static/style.css">
-    <!-- Fixed Google Fonts link for professional Inter typography -->
-    <link href="https://fonts.googleapis.com" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Go System Pro | Dashboard</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg-dark: #0b0f1a;
+  --card-dark: #111827;
+  --neon-cyan: #00f5ff;
+  --neon-violet: #8b5cf6;
+  --text-main: #ffffff;
+  --text-dim: #9ca3af;
+  --neon-green: #22c55e;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
+}
+
+body {
+  background: radial-gradient(circle at top, #0f172a, #020617);
+  color: var(--text-main);
+  min-height: 100vh;
+}
+
+/* NAVBAR */
+nav {
+  width: 100%;
+  padding: 20px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 1.3rem;
+  font-weight: 700;
+  background: linear-gradient(to right, var(--neon-cyan), var(--neon-violet));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+nav ul {
+  display: flex;
+  list-style: none;
+  gap: 25px;
+}
+
+nav ul li a {
+  color: var(--text-dim);
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: 0.3s;
+}
+
+nav ul li a:hover {
+  color: white;
+}
+
+/* CONTAINER */
+.container {
+  max-width: 1100px;
+  margin: auto;
+  padding: 30px 20px 50px;
+}
+
+/* HEADER */
+header {
+  margin-bottom: 25px;
+}
+
+header h1 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.status-bar {
+  display: flex;
+  gap: 15px;
+  font-size: 0.8rem;
+  color: var(--text-dim);
+}
+
+.status-bar span {
+  background: #020617;
+  padding: 6px 10px;
+  border-radius: 8px;
+}
+
+/* Glowing neon green for status */
+#status-tag {
+  color: var(--neon-green);
+  font-weight: bold;
+  text-shadow:
+    0 0 5px var(--neon-green),
+    0 0 10px var(--neon-green),
+    0 0 15px var(--neon-green),
+    0 0 20px var(--neon-green);
+  animation: neon-glow 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes neon-glow {
+  0% {
+    text-shadow:
+      0 0 5px var(--neon-green),
+      0 0 10px var(--neon-green),
+      0 0 15px var(--neon-green),
+      0 0 20px var(--neon-green);
+  }
+  100% {
+    text-shadow:
+      0 0 10px var(--neon-green),
+      0 0 20px var(--neon-green),
+      0 0 30px var(--neon-green),
+      0 0 40px var(--neon-green);
+  }
+}
+
+/* GRID LAYOUT */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.card {
+  background: linear-gradient(145deg, #0f172a, #020617);
+  padding: 25px;
+  border-radius: 18px;
+  box-shadow: 0 0 25px rgba(0,245,255,0.05);
+}
+
+.card h2 {
+  margin-bottom: 15px;
+  font-size: 1.2rem;
+}
+
+/* INPUT AREA */
+.input-group {
+  display: flex;
+  gap: 10px;
+}
+
+.input-group input {
+  flex: 1;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: none;
+  background: #020617;
+  color: white;
+  outline: none;
+}
+
+.btn-primary {
+  background: linear-gradient(to right, var(--neon-cyan), var(--neon-violet));
+  border: none;
+  padding: 12px 18px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-primary:hover {
+  transform: scale(1.05);
+}
+
+/* USER LIST */
+.user-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.user-item {
+  background: #020617;
+  padding: 12px 15px;
+  border-radius: 10px;
+  font-size: 0.9rem;
+}
+
+.empty-msg {
+  color: var(--text-dim);
+  font-size: 0.9rem;
+}
+
+/* FOOTER */
+.footer {
+  margin-top: 30px;
+  text-align: center;
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  border-top: 1px solid rgba(255,255,255,0.1);
+  padding-top: 15px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 800px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
 </head>
+
 <body>
-    <main class="container">
-        <!-- UPDATED: Top Navigation with Home and Manage links -->
-        <nav style="display: flex; justify-content: space-between; margin-bottom: 15px;">
-            <a href="/" class="back-link" style="text-decoration: none; font-size: 0.85rem;">← Home</a>
-            <a href="/manage" class="back-link" style="text-decoration: none; font-size: 0.85rem;">Manage Database →</a>
-        </nav>
 
-        <header>
-            <h1>🚀 Go System Dashboard</h1>
-            <div class="status-bar">
-                <span id="status-tag">● Server Online</span>
-                <span id="start-time">Started: --:--:--</span>
-                <span id="live-clock">00:00:00</span>
-            </div>
-        </header>
+<nav>
+  <div class="logo">Go System Pro</div>
+  <ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="/dashboard">Dashboard</a></li>
+    <li><a href="/manage">Database</a></li>
+    <li><a href="#">Logout</a></li>
+  </ul>
+</nav>
 
-        <!-- Input Card -->
-        <section class="card">
-            <h2>User Registration</h2>
-            <div class="input-group">
-                <input type="text" id="userName" placeholder="Enter name (e.g. Gopher)">
-                <button class="btn-primary" onclick="testAPI()">Add User</button>
-            </div>
-            <div id="response-box" class="hidden">
-                <pre id="api-data"></pre>
-            </div>
-        </section>
+<main class="container">
 
-        <!-- Registered Users Card -->
-        <section class="card list-card">
-            <h2>Registered Users</h2>
-            <div id="user-list" class="user-list">
-                <p class="empty-msg">No users added yet...</p>
-            </div>
-            
-            <!-- Centered Signature inside the card -->
-            <div style="border-top: 1px solid rgba(255,255,255,0.1); margin-top: 20px; padding-top: 15px; text-align: center;">
-                <p style="font-size: 0.75rem; color: var(--text-dim);"> Powered By <strong> Chekus Joseph Coder </strong></p>
-            </div>
-        </section>
+<header>
+  <h1>🚀 Go System Dashboard</h1>
+  <div class="status-bar">
+    <span id="status-tag">● Server Online</span>
+    <span id="live-clock">00:00:00</span>
+  </div>
+</header>
 
-        <footer>
-            <!-- Space for extra page info if needed -->
-        </footer>
-    </main>
-    <script src="/static/script.js"></script>
+<div class="dashboard-grid">
+
+  <!-- USER REGISTRATION -->
+  <section class="card">
+    <h2>Add New User</h2>
+
+    <div class="input-group">
+      <input type="text" id="userName" placeholder="Enter user name (example: Gopher)">
+      <button class="btn-primary" onclick="testAPI()">Add</button>
+    </div>
+
+    <div id="response-box" class="hidden">
+      <pre id="api-data"></pre>
+    </div>
+  </section>
+
+  <!-- USER LIST -->
+  <section class="card">
+    <h2>Registered Users</h2>
+
+    <div id="user-list" class="user-list">
+      <p class="empty-msg">No users added yet...</p>
+    </div>
+
+  </section>
+
+</div>
+
+<div class="footer">
+  Version <strong>v1.2.0 Stable</strong> • Built by <strong>Chekus Joseph</strong>
+</div>
+
+</main>
+
+<script src="/static/script.js"></script>
 </body>
 </html>
-

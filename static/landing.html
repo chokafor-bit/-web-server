@@ -1,33 +1,239 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome | Go System</title>
-    <link rel="stylesheet" href="/static/style.css">
-    <link href="https://fonts.googleapis.com" rel="stylesheet">
-</head>
-<body>
-    <main class="container" style="text-align: center;">
-        <div class="card" style="padding: 50px 30px;">
-            <div style="font-size: 3rem; margin-bottom: 20px;">⚡</div>
-            <h1 style="background: linear-gradient(to right, var(--neon-cyan), var(--neon-violet)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 2.5rem; margin-bottom: 15px;">
-                Go System Pro
-            </h1>
-            <p style="color: var(--text-dim); margin-bottom: 30px; font-size: 1.1rem; line-height: 1.6;">
-                The next generation of high-speed user management. <br> 
-                Built with Golang for ultimate performance.
-            </p>
-            
-            <a href="/dashboard" class="btn-primary" style="text-decoration: none; display: block; width: 100%; font-size: 1.2rem;">
-                Enter Dashboard →
-            </a>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Go System Pro</title>
 
-            <div style="margin-top: 30px; font-size: 0.8rem; color: var(--text-dim); border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
-                Current Version: <strong>v1.2.0 Stable</strong> <br>
-                Powered by <strong>Chekus Joseph Coder</strong>
-            </div>
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg-dark: #0b0f1a;
+  --card-dark: #111827;
+  --neon-cyan: #00f5ff;
+  --neon-violet: #8b5cf6;
+  --text-main: #ffffff;
+  --text-dim: #a1a1aa;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  background: radial-gradient(circle at top, #0f172a, #020617);
+  color: var(--text-main);
+  min-height: 100vh;
+}
+
+/* NAVBAR */
+nav {
+  width: 100%;
+  padding: 20px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 1.4rem;
+  font-weight: 700;
+  background: linear-gradient(to right, var(--neon-cyan), var(--neon-violet));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+nav ul {
+  display: flex;
+  list-style: none;
+  gap: 25px;
+}
+
+nav ul li a {
+  color: var(--text-dim);
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: 0.3s;
+}
+
+nav ul li a:hover {
+  color: var(--text-main);
+}
+
+/* HERO SECTION */
+.hero {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 80px 20px;
+}
+
+.card {
+  background: linear-gradient(145deg, #0f172a, #020617);
+  padding: 60px 40px;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 550px;
+  box-shadow: 0 0 40px rgba(0, 245, 255, 0.08);
+  position: relative;
+  overflow: hidden;
+}
+
+.card::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(0,245,255,0.15), transparent 60%);
+  animation: glow 6s linear infinite;
+}
+
+@keyframes glow {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.card-content {
+  position: relative;
+  z-index: 2;
+}
+
+.icon {
+  font-size: 3.5rem;
+  margin-bottom: 15px;
+}
+
+h1 {
+  font-size: 2.7rem;
+  margin-bottom: 15px;
+  background: linear-gradient(to right, var(--neon-cyan), var(--neon-violet));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.subtitle {
+  color: var(--text-dim);
+  font-size: 1.05rem;
+  margin-bottom: 35px;
+  line-height: 1.6;
+}
+
+/* BUTTON */
+.btn-primary {
+  display: inline-block;
+  background: linear-gradient(to right, var(--neon-cyan), var(--neon-violet));
+  color: #000;
+  font-weight: 600;
+  padding: 14px 30px;
+  border-radius: 12px;
+  text-decoration: none;
+  font-size: 1.1rem;
+  transition: 0.3s ease;
+  width: 100%;
+}
+
+.btn-primary:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(139, 92, 246, 0.5);
+}
+
+/* FEATURES */
+.features {
+  margin-top: 40px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+}
+
+.feature-box {
+  background: #020617;
+  padding: 15px;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  color: var(--text-dim);
+}
+
+.feature-box span {
+  display: block;
+  font-size: 1.2rem;
+  margin-bottom: 5px;
+}
+
+/* FOOTER */
+.footer {
+  margin-top: 35px;
+  font-size: 0.8rem;
+  color: var(--text-dim);
+  border-top: 1px solid rgba(255,255,255,0.1);
+  padding-top: 20px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 600px) {
+  h1 { font-size: 2rem; }
+  .features { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+  <div class="logo">Go System Pro</div>
+  <ul>
+    <li><a href="#">Home</a></li>
+    <li><a href="#">Features</a></li>
+    <li><a href="#">Docs</a></li>
+    <li><a href="#">Login</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="card">
+    <div class="card-content">
+
+      <div class="icon">⚡</div>
+
+      <h1>Go System Pro</h1>
+
+      <p class="subtitle">
+        The next generation high‑speed user management system.<br>
+        Built with Golang for extreme performance and reliability.
+      </p>
+
+      <a href="/dashboard" class="btn-primary">Enter Dashboard →</a>
+
+      <div class="features">
+        <div class="feature-box">
+          <span>⚡</span>
+          Ultra Fast
         </div>
-    </main>
+        <div class="feature-box">
+          <span>🔒</span>
+          Secure Auth
+        </div>
+        <div class="feature-box">
+          <span>📊</span>
+          Modern Dashboard
+        </div>
+      </div>
+
+      <div class="footer">
+        Version <strong>v1.2.0 Stable</strong><br>
+        Built by <strong>Chekus Joseph</strong>
+      </div>
+
+    </div>
+  </div>
+</section>
+
 </body>
 </html>
